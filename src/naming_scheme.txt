@@ -1,0 +1,6 @@
+feat: feature added
+fix: bug fixes
+balance: self-explained
+refactor: code changes
+assets: assets changes
+docs: added documentations(like this file!)
