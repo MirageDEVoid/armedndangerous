@@ -11,6 +11,7 @@ public class ModItems {
     public static final DeferredRegister<Item> REGISTER;
 
     public static final RegistryObject<AnimatedGunItem> RANGER_SMG;
+    public static final RegistryObject<AnimatedGunItem> RAPID_SMG;
 
     static {
         REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, "and");
@@ -18,7 +19,12 @@ public class ModItems {
         RANGER_SMG = REGISTER.register("ranger_smg",
                 () -> new AnimatedGunItem((new Item.Properties())
                         .stacksTo(1)
-                        .durability(972)
+                        .durability(640)
                         .rarity(Rarity.UNCOMMON), "ranger_smg"));
+        RAPID_SMG = REGISTER.register("rapid_smg",
+                () -> new AnimatedGunItem((new Item.Properties())
+                        .stacksTo(1)
+                        .durability(880)
+                        .rarity(Rarity.UNCOMMON), "rapid_smg"));
     }
 }

@@ -1,0 +1,33 @@
+{
+  "type": "jeg:blueprint_workbench",
+  "materials": [
+    {
+      "item": "jeg:gunnite_ingot",
+      "count": 24
+    },
+    {
+      "item": "minecraft:sandstone",
+      "count": 4
+    },
+    {
+      "item": "minecraft:repeater",
+      "count": 2
+    },
+    {
+      "item": "jeg:scrap",
+      "count": 72
+    },
+    {
+      "item": "jeg:firearm_blueprint",
+      "count": 3
+    },
+    {
+      "item": "jeg:advanced_firearm_blueprint",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "and:rapid_smg"
+  },
+  "time": 30
+}
