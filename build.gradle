@@ -4,6 +4,93 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
 }
 
+import java.time.LocalDate
+import java.time.temporal.IsoFields
+
+def indexToSuffix(int index) {
+    def letters = ""
+    index++
+    while (index > 0) {
+        index--
+        letters = String.valueOf((char)(('a' as char) + (index % 26))) + letters
+        index = (int)(index / 26)
+    }
+    return letters
+}
+
+def generateSnapshotVersion() {
+    def now = LocalDate.now()
+    def year = String.format("%02d", now.year % 100)
+    def week = String.format("%02d", now.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR))
+
+    def counterFile = file("$rootDir/.gradle/snapshot_counter.properties")
+    def props = new Properties()
+    def currentWeekKey = "${year}w${week}"
+
+    if (counterFile.exists()) {
+        counterFile.withInputStream { props.load(it) }
+    }
+
+    def lastWeek = props.getProperty("last_week", "")
+    def letterIndex = lastWeek == currentWeekKey
+            ? (props.getProperty("letter_index", "0") as int) + 1
+            : 0
+
+    props.setProperty("last_week", currentWeekKey)
+    props.setProperty("letter_index", letterIndex.toString())
+    counterFile.parentFile.mkdirs()
+    counterFile.withOutputStream { props.store(it, null) }
+
+    return "${year}w${week}${indexToSuffix(letterIndex)}"
+}
+
+// Version resolved once at configuration time based on which task is running
+def isReleaseBuild = gradle.startParameter.taskNames.any { it.equalsIgnoreCase("buildRelease") }
+
+def modVersion = isReleaseBuild
+        ? (project.findProperty("mod_version") ?: { throw new GradleException("mod_version not set in gradle.properties") }())
+        : generateSnapshotVersion()
+
+version = modVersion
+
+processResources {
+    inputs.property "version", modVersion
+
+    filesMatching("META-INF/mods.toml") {
+        expand([
+                "version"            : modVersion,
+                // Mirror whatever ${...} placeholders exist in your mods.toml
+                "forge_version_range": project.forge_version_range,
+                "minecraft_version_range": project.minecraft_version_range,
+                "loader_version_range": project.loader_version_range
+        ])
+    }
+}
+
+// Snapshot: build + deploy straight to Prism
+task deployToInstance(type: Copy) {
+    dependsOn build
+    from jar
+    into "C:/Users/admin/AppData/Roaming/PrismLauncher/instances/Exceptionally Optimized/minecraft/mods"
+
+    doLast {
+        println "========================================="
+        println " Snapshot deployed: ${modVersion}"
+        println "========================================="
+    }
+}
+
+// Release: build only, output stays in build/libs
+task buildRelease {
+    dependsOn build
+
+    doLast {
+        println "========================================="
+        println " Release built: ${modVersion}"
+        println " Output: ${jar.archiveFile.get().asFile}"
+        println "========================================="
+    }
+}
 
 group = mod_group_id
 version = mod_version
@@ -120,17 +207,6 @@ tasks.named('jar', Jar).configure {
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")])
     }
     finalizedBy 'reobfJar'
-}
-
-task deployToInstance(type: Copy) {
-    dependsOn build
-    from jar
-
-    into "C:/Users/admin/AppData/Roaming/PrismLauncher/instances/Exceptionally Optimized/minecraft/mods"
-
-    doLast {
-        println "Deployed Successfully."
-    }
 }
 
 tasks.withType(JavaCompile).configureEach {
