@@ -13,12 +13,14 @@ public class ModItems {
 
     public static final RegistryObject<AnimatedGunItem> RANGER_SMG;
     public static final RegistryObject<AnimatedGunItem> RAPID_SMG;
+    public static final RegistryObject<AnimatedGunItem> MAGNUM_PISTOL;
 
     static {
         REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, "and");
 
         RANGER_SMG = gun("ranger_smg", new Item.Properties().stacksTo(1).durability(640).rarity(Rarity.UNCOMMON));
-        RAPID_SMG = gun("rapid_smg", new Item.Properties().stacksTo(1).durability(880).rarity(Rarity.UNCOMMON));
+        RAPID_SMG = gun("rapid_smg", new Item.Properties().stacksTo(1).durability(920).rarity(Rarity.UNCOMMON));
+        MAGNUM_PISTOL = gun("magnum_pistol", new Item.Properties().stacksTo(1).durability(360).rarity(Rarity.UNCOMMON));
     }
 
     private static RegistryObject<AnimatedGunItem> gun(String name, Item.Properties properties) {

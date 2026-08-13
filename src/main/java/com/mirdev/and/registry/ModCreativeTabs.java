@@ -18,7 +18,7 @@ public class ModCreativeTabs {
     public static final RegistryObject<CreativeModeTab> ARMEDNDANGEROUS_TAB = CREATIVE_MODE_TABS.register("and_tab",
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup." + ArmedNDangerous.MODID))
-                    .icon(() -> new ItemStack(ModItems.RAPID_SMG.get()))
+                    .icon(() -> new ItemStack(ModItems.MAGNUM_PISTOL.get()))
                     .withSearchBar()
                     .displayItems((parameters, output) -> {
                         ModItems.REGISTER.getEntries().stream()

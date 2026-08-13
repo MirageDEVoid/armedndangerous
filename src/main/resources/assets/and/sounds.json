@@ -1,0 +1,10 @@
+{
+  "item.magnum_pistol.fire": {
+    "subtitle": "subtitle.jeg.fire",
+    "sounds": [
+      {
+        "name": "and:item/magnum_pistol/fire"
+      }
+    ]
+  }
+}
