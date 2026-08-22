@@ -1,0 +1,95 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "builtin/entity",
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -4.25,
+        -2.25
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -4.25,
+        -2.25
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        -5.5,
+        0,
+        -2
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        -5,
+        0,
+        -1.5
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        0,
+        -2
+      ]
+    },
+    "gui": {
+      "rotation": [
+        90,
+        -60,
+        90
+      ],
+      "translation": [
+        7,
+        -5.5,
+        0
+      ],
+      "scale": [
+        2,
+        2,
+        2
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        -90,
+        90,
+        90
+      ],
+      "translation": [
+        -2.5,
+        -8,
+        0
+      ],
+      "scale": [
+        2,
+        2,
+        2
+      ]
+    },
+    "on_shelf": {
+      "rotation": [
+        90,
+        -60,
+        90
+      ],
+      "translation": [
+        7,
+        -5.5,
+        0
+      ],
+      "scale": [
+        2,
+        2,
+        2
+      ]
+    }
+  },
+  "textures": {
+    "particle": "and:item/veterinary_pistol"
+  }
+}

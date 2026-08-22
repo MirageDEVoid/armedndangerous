@@ -2,6 +2,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
 }
 
 import java.time.LocalDate
@@ -44,7 +45,6 @@ def generateSnapshotVersion() {
     return "${year}w${week}${indexToSuffix(letterIndex)}"
 }
 
-// Version resolved once at configuration time based on which task is running
 def isReleaseBuild = gradle.startParameter.taskNames.any { it.equalsIgnoreCase("buildRelease") }
 
 def modVersion = isReleaseBuild
@@ -53,30 +53,20 @@ def modVersion = isReleaseBuild
 
 version = modVersion
 
-processResources {
-    inputs.property "version", modVersion
-
-    filesMatching("META-INF/mods.toml") {
-        expand([
-                "version"            : modVersion,
-                // Mirror whatever ${...} placeholders exist in your mods.toml
-                "forge_version_range": project.forge_version_range,
-                "minecraft_version_range": project.minecraft_version_range,
-                "loader_version_range": project.loader_version_range
-        ])
-    }
-}
-
 // Snapshot: build + deploy straight to Prism
 task deployToInstance(type: Copy) {
     dependsOn build
     from jar
     into "C:/Users/admin/AppData/Roaming/PrismLauncher/instances/Exceptionally Optimized/minecraft/mods"
 
+    doFirst {
+        delete fileTree(destinationDir).matching {
+            include "and-*.jar"
+        }
+    }
+
     doLast {
-        println "========================================="
-        println " Snapshot deployed: ${modVersion}"
-        println "========================================="
+        println "Snapshot deployed: ${modVersion}"
     }
 }
 
@@ -93,7 +83,6 @@ task buildRelease {
 }
 
 group = mod_group_id
-version = mod_version
 
 base {
     archivesName = mod_id
@@ -164,6 +153,9 @@ repositories {
         url = "https://www.cursemaven.com"
     }
     maven {
+        url 'https://repo.spongepowered.org/maven/'
+    }
+    maven {
         name = 'GeckoLib'
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         content {
@@ -174,8 +166,15 @@ repositories {
 
 }
 
+mixin {
+    add sourceSets.main, "and.refmap.json"
+    config "and.mixins.json"
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.4.10"
+
+    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 
     implementation fg.deobf("curse.maven:framework-549225:7573740")
     implementation fg.deobf("curse.maven:just-enough-guns-820727:8552239")
@@ -187,9 +186,11 @@ tasks.named('processResources', ProcessResources).configure {
                              forge_version       : forge_version, forge_version_range: forge_version_range,
                              loader_version_range: loader_version_range,
                              mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-                             mod_authors         : mod_authors, mod_description: mod_description,]
+                             mod_authors         : mod_authors, mod_description: mod_description,
+                             version             : modVersion]  // add this
 
     inputs.properties replaceProperties
+    inputs.property "version", modVersion
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]

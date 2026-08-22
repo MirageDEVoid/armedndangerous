@@ -2,5 +2,10 @@
   "itemGroup.and": "AN'D",
   "item.and.ranger_smg": "Ranger SMG",
   "item.and.rapid_smg": "Rapid SMG",
-  "item.and.magnum_pistol": "Magnum Pistol"
+  "item.and.magnum_pistol": "Magnum Pistol",
+  "item.and.veterinary_pistol": "Veterinary Pistol",
+
+  "item.and.heavy_rifle_ammo": "Heavy Rifle Ammo",
+
+  "advantage.and:stealth": "Stealth"
 }

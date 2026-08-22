@@ -1,7 +1,7 @@
-package com.mirdev.and;
+package com.miradev.and;
 
-import com.mirdev.and.init.ModItems;
-import com.mirdev.and.registry.ModCreativeTabs;
+import com.miradev.and.init.ModItems;
+import com.miradev.and.registry.ModCreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;

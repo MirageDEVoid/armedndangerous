@@ -1,0 +1,48 @@
+{
+  "general": {
+    "drawTimer": 28,
+    "fireMode": "jeg:semi_auto",
+    "gripType": "jeg:one_handed",
+    "jamTimer": 70,
+    "rate": 22,
+    "recoilAngle": 1.25,
+    "recoilKick": 0.5,
+    "silenced": true,
+    "spread": 2.0
+  },
+  "modules": {
+    "zoom": {
+      "fovModifier": 0.8,
+      "yOffset": 4.25,
+      "zOffset": -1.5
+    }
+  },
+  "projectile": {
+    "advantage": "and:stealth",
+    "damage": 6.0,
+    "ejectsCasing": true,
+    "headshotMultiplier": 2.0,
+    "hideTrail": true,
+    "item": "jeg:pistol_ammo",
+    "life": 80,
+    "size": 0.1,
+    "speed": 6.0,
+    "trailLengthMultiplier": 2.0
+  },
+  "reloads": {
+    "additionalReloadTimer": 20,
+    "maxAmmo": 9,
+    "reloadTimer": 30,
+    "reloadType": "jeg:mag_fed"
+  },
+  "sounds": {
+    "ejectorPull": "jeg:item.assault_rifle.ejector_pull",
+    "ejectorRelease": "jeg:item.assault_rifle.ejector_release",
+    "enchantedFire": "jeg:item.subsonic_rifle.enchanted_fire",
+    "fire": "jeg:item.subsonic_rifle.fire",
+    "reloadEnd": "jeg:item.assault_rifle.reload_ejector",
+    "reloadLoad": "jeg:item.combat_rifle.reload_magazine_out",
+    "reloadStart": "jeg:item.combat_rifle.reload_magazine_in",
+    "silencedFire": "jeg:item.subsonic_rifle.fire"
+  }
+}

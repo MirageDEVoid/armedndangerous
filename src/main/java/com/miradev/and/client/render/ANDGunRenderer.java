@@ -1,4 +1,4 @@
-package com.mirdev.and.client.render;
+package com.miradev.and.client.render;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,8 +15,6 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import ttv.migami.jeg.client.render.gun.animated.AnimatedGunRenderer;
 import ttv.migami.jeg.item.AnimatedGunItem;
-
-import javax.annotation.Nullable;
 
 public class ANDGunRenderer extends AnimatedGunRenderer {
 

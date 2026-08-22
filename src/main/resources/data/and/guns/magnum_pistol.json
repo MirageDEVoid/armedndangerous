@@ -24,22 +24,22 @@
     }
   },
   "projectile": {
-    "advantage": "jeg:heavy",
-    "damage": 10.5,
+    "advantage": "jeg:very_heavy",
+    "damage": 11,
     "ejectsCasing": true,
     "gravity": true,
     "headshotMultiplier": 2.0,
     "item": "jeg:pistol_ammo",
     "life": 40,
     "size": 0.05,
-    "speed": 10.0,
+    "speed": 12.0,
     "trailColor": -256,
     "trailLengthMultiplier": 2.0
   },
   "reloads": {
-    "additionalReloadTimer": 10,
+    "additionalReloadTimer": 24,
     "maxAmmo": 8,
-    "reloadTimer": 40,
+    "reloadTimer": 48,
     "reloadType": "jeg:mag_fed"
   },
   "sounds": {

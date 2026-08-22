@@ -1,10 +1,10 @@
-package com.mirdev.and.item;
+package com.miradev.and.item;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import com.mirdev.and.client.render.ANDGunModel;
-import com.mirdev.and.client.render.ANDGunRenderer;
+import com.miradev.and.client.render.ANDGunModel;
+import com.miradev.and.client.render.ANDGunRenderer;
 import ttv.migami.jeg.item.AnimatedGunItem;
 
 import java.util.function.Consumer;

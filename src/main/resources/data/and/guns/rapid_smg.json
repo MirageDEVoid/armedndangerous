@@ -12,9 +12,9 @@
     "fireMode": "jeg:automatic",
     "gripType": "jeg:two_handed",
     "rate": 1,
-    "recoilAngle": 0.5,
-    "recoilKick": 2.0,
-    "spread": 3.0
+    "recoilAngle": 0.25,
+    "recoilKick": 0.25,
+    "spread": 2.0
   },
   "modules": {
     "zoom": {
@@ -25,7 +25,7 @@
   },
   "projectile": {
     "advantage": "jeg:heavy",
-    "damage": 6.0,
+    "damage": 6.5,
     "ejectsCasing": true,
     "headshotMultiplier": 1.5,
     "item": "jeg:pistol_ammo",

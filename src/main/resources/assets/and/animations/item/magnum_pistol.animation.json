@@ -545,7 +545,7 @@
 							"easing": "easeInSine"
 						},
 						"1.625": {
-							"vector": [-4.5, -7, -0.75],
+							"vector": [-4.75, -7, -0.75],
 							"easing": "easeOutSine"
 						},
 						"2.0417": {

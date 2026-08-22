@@ -1,0 +1,33 @@
+{
+  "type": "jeg:blueprint_workbench",
+  "materials": [
+    {
+      "item": "jeg:gunnite_ingot",
+      "count": 16
+    },
+    {
+      "item": "minecraft:black_dye",
+      "count": 8
+    },
+    {
+      "item": "minecraft:sponge",
+      "count": 2
+    },
+    {
+      "item": "jeg:scrap",
+      "count": 56
+    },
+    {
+      "item": "jeg:firearm_blueprint",
+      "count": 1
+    },
+    {
+      "item": "jeg:advanced_firearm_blueprint",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "and:veterinary_pistol"
+  },
+  "time": 30
+}

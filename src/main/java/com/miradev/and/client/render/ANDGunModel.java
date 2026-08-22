@@ -1,4 +1,4 @@
-package com.mirdev.and.client.render;
+package com.miradev.and.client.render;
 
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.core.animation.AnimationState;

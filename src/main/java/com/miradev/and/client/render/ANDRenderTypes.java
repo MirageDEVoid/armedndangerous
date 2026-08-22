@@ -1,4 +1,4 @@
-package com.mirdev.and.client.render;
+package com.miradev.and.client.render;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
