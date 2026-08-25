@@ -2,8 +2,8 @@ package com.miradev.and.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
@@ -43,10 +43,22 @@ public class StealthTracker {
         return (Mob) hit.getEntity();
     }
 
-    public static boolean isOutsideFollowRange(LocalPlayer player, Mob mob) {
-        double followRange = mob.getAttributeValue(
-                net.minecraft.world.entity.ai.attributes.Attributes.FOLLOW_RANGE);
+    public static boolean hasDetectedPlayer(LocalPlayer player, Mob mob) {
+        // Primary check – matches MixinProjectileEntity
+        if (mob.getTarget() == player) {
+            return true;
+        }
+
+        if (mob.isAggressive() && mob.getSensing().hasLineOfSight(player)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isInFollowRange(LocalPlayer player, Mob mob) {
+        double followRange = mob.getAttributeValue(Attributes.FOLLOW_RANGE);
         double distanceSq  = player.distanceToSqr(mob);
-        return distanceSq > followRange * followRange;
+        return distanceSq <= followRange * followRange;
     }
 }

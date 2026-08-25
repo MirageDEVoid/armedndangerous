@@ -13,7 +13,7 @@
   "modules": {
     "zoom": {
       "fovModifier": 0.8,
-      "yOffset": 4.25,
+      "yOffset": 4.3,
       "zOffset": -1.5
     }
   },
@@ -31,18 +31,17 @@
   },
   "reloads": {
     "additionalReloadTimer": 20,
-    "maxAmmo": 9,
+    "maxAmmo": 7,
     "reloadTimer": 30,
     "reloadType": "jeg:mag_fed"
   },
   "sounds": {
-    "ejectorPull": "jeg:item.assault_rifle.ejector_pull",
-    "ejectorRelease": "jeg:item.assault_rifle.ejector_release",
-    "enchantedFire": "jeg:item.subsonic_rifle.enchanted_fire",
-    "fire": "jeg:item.subsonic_rifle.fire",
-    "reloadEnd": "jeg:item.assault_rifle.reload_ejector",
-    "reloadLoad": "jeg:item.combat_rifle.reload_magazine_out",
-    "reloadStart": "jeg:item.combat_rifle.reload_magazine_in",
-    "silencedFire": "jeg:item.subsonic_rifle.fire"
+    "ejectorPull": "jeg:item.bolt_action_rifle.bolt_pull",
+    "ejectorRelease": "jeg:item.bolt_action_rifle.bolt_release",
+    "enchantedFire": "jeg:item.burst_rifle.silenced_fire",
+    "fire": "jeg:item.burst_rifle.silenced_fire",
+    "reloadEnd": "jeg:item.bolt_action_rifle.bolt_release",
+    "reloadLoad": "jeg:item.assault_rifle.reload_magazine_in",
+    "reloadStart": "jeg:item.assault_rifle.reload_magazine_out"
   }
 }
