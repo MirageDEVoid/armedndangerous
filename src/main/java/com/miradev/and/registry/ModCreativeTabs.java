@@ -1,6 +1,7 @@
 package com.miradev.and.registry;
 
 import com.miradev.and.ArmedNDangerous;
+import com.miradev.and.Reference;
 import com.miradev.and.init.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -12,11 +13,11 @@ import net.minecraft.core.registries.Registries;
 public class ModCreativeTabs {
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ArmedNDangerous.MODID);
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> ARMEDNDANGEROUS_TAB = CREATIVE_MODE_TABS.register("and_tab",
             () -> CreativeModeTab.builder()
-                    .title(Component.translatable("itemGroup." + ArmedNDangerous.MODID))
+                    .title(Component.translatable("itemGroup." + Reference.MOD_ID))
                     .icon(() -> new ItemStack(ModItems.MAGNUM_PISTOL.get()))
                     .withSearchBar()
                     .displayItems((parameters, output) -> {

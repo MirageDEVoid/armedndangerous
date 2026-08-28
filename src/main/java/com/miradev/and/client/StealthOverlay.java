@@ -1,6 +1,6 @@
 package com.miradev.and.client;
 
-import com.miradev.and.ArmedNDangerous;
+import com.miradev.and.Reference;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -11,13 +11,13 @@ import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = ArmedNDangerous.MODID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT)
 public class StealthOverlay {
 
     private static final ResourceLocation NOT_SPOT =
-            new ResourceLocation(ArmedNDangerous.MODID, "textures/gui/not_spot.png");
+            new ResourceLocation(Reference.MOD_ID, "textures/gui/not_spot.png");
     private static final ResourceLocation SPOT_NOT_TARGET =
-            new ResourceLocation(ArmedNDangerous.MODID, "textures/gui/spot_not_target.png");
+            new ResourceLocation(Reference.MOD_ID, "textures/gui/spot_not_target.png");
 
     private static final int ICON_SIZE = 16;
     private static final int HALF_ICON = ICON_SIZE / 2;

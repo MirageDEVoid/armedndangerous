@@ -44,7 +44,6 @@ public class StealthTracker {
     }
 
     public static boolean hasDetectedPlayer(LocalPlayer player, Mob mob) {
-        // Primary check – matches MixinProjectileEntity
         if (mob.getTarget() == player) {
             return true;
         }

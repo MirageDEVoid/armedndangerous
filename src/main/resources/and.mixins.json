@@ -6,6 +6,7 @@
   "mixins": [
     "MixinProjectileEntity"
   ],
-  "client": [],
+  "client": [
+  ],
   "minVersion": "0.8"
 }
