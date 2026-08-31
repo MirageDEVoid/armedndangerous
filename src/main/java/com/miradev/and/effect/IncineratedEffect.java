@@ -15,14 +15,16 @@ public class IncineratedEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
-
-        entity.hurt(entity.damageSources().onFire(), 4.0f);
+    public boolean isDurationEffectTick(int duration, int amplifier) {
+        return true;
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return duration % 10 == 0;
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
+        if (entity.tickCount % 10 != 0) return;
+
+        entity.setSecondsOnFire(1);
+        entity.hurt(entity.damageSources().onFire(), 4.0f);
     }
 
     @Override

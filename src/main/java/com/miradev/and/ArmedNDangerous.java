@@ -2,6 +2,7 @@ package com.miradev.and;
 
 import com.miradev.and.init.ModBlocks;
 import com.miradev.and.init.ModEffects;
+import com.miradev.and.init.ModEntities;
 import com.miradev.and.init.ModItems;
 import com.miradev.and.registry.ModCreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,7 +24,9 @@ public class ArmedNDangerous {
         MinecraftForge.EVENT_BUS.register(this);
 
         ModItems.REGISTER.register(bus);
+        ModBlocks.REGISTER.register(bus);
         ModEffects.REGISTER.register(bus);
+        ModEntities.REGISTER.register(bus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(bus);
 
         bus.addListener(this::onCommonSetup);

@@ -3,7 +3,7 @@
   "materials": [
     {
       "item": "jeg:gunnite_ingot",
-      "count": 16
+      "count": 8
     },
     {
       "item": "minecraft:black_dye",
@@ -15,7 +15,7 @@
     },
     {
       "item": "jeg:scrap",
-      "count": 56
+      "count": 36
     },
     {
       "item": "jeg:firearm_blueprint",

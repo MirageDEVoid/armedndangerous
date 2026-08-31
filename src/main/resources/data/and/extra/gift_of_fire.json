@@ -1,0 +1,11 @@
+{
+  "hazard_zone": {
+    "radius": 4.0,
+    "duration": 600,
+    "tick_interval": 10,
+    "applied_effect": "and:incinerated",
+    "effect_amplifier": 0,
+    "effect_duration": 60,
+    "owner_damage_multiplier": 0.25
+  }
+}
