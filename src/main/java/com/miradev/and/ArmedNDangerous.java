@@ -41,8 +41,6 @@ public class ArmedNDangerous {
     }
 
     private void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-        });
     }
 
     private void onAddReloadListeners(AddReloadListenerEvent event) {

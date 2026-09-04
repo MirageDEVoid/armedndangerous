@@ -175,7 +175,10 @@ dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.4.10"
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    annotationProcessor 'io.github.llamalad7:mixinextras-common:0.5.5'
+    compileOnly 'io.github.llamalad7:mixinextras-common:0.5.5'
 
+    implementation 'io.github.llamalad7:mixinextras-forge:0.5.5'
     implementation fg.deobf("curse.maven:framework-549225:7573740")
     implementation fg.deobf("curse.maven:just-enough-guns-820727:8552239")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.20.1:4.8.4")

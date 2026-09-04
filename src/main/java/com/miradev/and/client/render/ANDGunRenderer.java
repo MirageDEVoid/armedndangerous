@@ -12,12 +12,14 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
+import software.bernie.geckolib.core.object.Color;
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 import ttv.migami.jeg.client.render.gun.animated.AnimatedGunRenderer;
 import ttv.migami.jeg.common.Gun;
 import ttv.migami.jeg.item.AnimatedGunItem;
 import ttv.migami.jeg.item.attachment.IAttachment;
 import ttv.migami.jeg.item.attachment.item.PaintJobCanItem;
+import ttv.migami.jeg.util.DyeUtils;
 
 import java.util.Optional;
 
@@ -34,6 +36,12 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
         this.tpModel = tpModel;
 
         this.tpRenderer = new GeoItemRenderer<>(tpModel) {
+
+            @Override
+            public Color getRenderColor(AnimatedGunItem animatable, float partialTick, int packedLight) {
+                return Color.ofOpaque(DyeUtils.getStoredDyeRGB(this.currentItemStack));
+            }
+
             @Override
             public void actuallyRender(PoseStack poseStack, AnimatedGunItem animatable, BakedGeoModel model,
                                        RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer,

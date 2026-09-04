@@ -35,26 +35,59 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
     private static final float THICKNESS = 0.1F;
     private static final float GROUND_OFFSET = 0.01F;
 
+    private static final int SPAWN_GROW_DURATION = 10;
+    private static final int DESPAWN_SHRINK_DURATION = 10;
+    private static final int BURNOUT_COLOR_DURATION = 20;
+
     private static final int FULL_BRIGHT = LightTexture.pack(15, 15);
 
     private static final ResourceLocation WATER_SPRITE_ID = new ResourceLocation("minecraft", "block/water_still");
+
+    private float[] computeColor(HazardZoneEntity entity, float partialTicks) {
+        boolean ignited = entity.isIgnitedSynced();
+        if (!ignited) return UNLIT_COLOR;
+
+        float age = entity.getAge() + partialTicks;
+        float duration = entity.getHazardType().duration;
+        float remaining = duration - age;
+
+        if (remaining < BURNOUT_COLOR_DURATION) {
+            float fadeProgress = Mth.clamp(remaining / BURNOUT_COLOR_DURATION, 0F, 1F);
+            return lerpColor(UNLIT_COLOR, IGNITED_COLOR, fadeProgress);
+        }
+
+        int igniteTick = entity.getIgniteTick();
+        int elapsed = entity.getAge() - igniteTick;
+        float progress = Mth.clamp((elapsed + partialTicks) / TRANSITION_DURATION, 0F, 1F);
+        return lerpColor(UNLIT_COLOR, IGNITED_COLOR, progress);
+    }
+
+    private float computeLifecycleScale(HazardZoneEntity entity, float partialTicks) {
+        float age = entity.getAge() + partialTicks;
+        float duration = entity.getHazardType().duration;
+
+        if (age < SPAWN_GROW_DURATION) {
+            return Mth.clamp(age / SPAWN_GROW_DURATION, 0F, 1F);
+        }
+
+        float remaining = duration - age;
+        if (remaining < DESPAWN_SHRINK_DURATION) {
+            return Mth.clamp(remaining / DESPAWN_SHRINK_DURATION, 0F, 1F);
+        }
+
+        return 1F;
+    }
 
     @Override
     public void render(HazardZoneEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         float radius = (float) entity.getHazardType().radius;
 
-        float[] color;
+        float[] color = computeColor(entity, partialTicks);
         boolean ignited = entity.isIgnitedSynced();
-        if (ignited) {
-            int igniteTick = entity.getIgniteTick();
-            int elapsed = entity.getAge() - igniteTick;
-            float progress = Mth.clamp((elapsed + partialTicks) / TRANSITION_DURATION, 0F, 1F);
-            color = lerpColor(UNLIT_COLOR, IGNITED_COLOR, progress);
-        } else {
-            color = UNLIT_COLOR;
-        }
-
         int emissiveLight = ignited ? FULL_BRIGHT : packedLight;
+
+        float lifecycleScale = computeLifecycleScale(entity, partialTicks);
+        float scaledRadius = radius * lifecycleScale;
 
         TextureAtlasSprite sprite = Minecraft.getInstance()
                 .getModelManager()
@@ -76,52 +109,52 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
         float y1 = THICKNESS;
 
         quad(consumer, matrix,
-                -radius, y1, -radius,
-                -radius, y1, radius,
-                radius, y1, radius,
-                radius, y1, -radius,
+                -scaledRadius, y1, -scaledRadius,
+                -scaledRadius, y1, scaledRadius,
+                scaledRadius, y1, scaledRadius,
+                scaledRadius, y1, -scaledRadius,
                 color, emissiveLight, 0, 1, 0,
                 u0, v0, u0, v1, u1, v1, u1, v0);
 
         quad(consumer, matrix,
-                -radius, y0, radius,
-                -radius, y0, -radius,
-                radius, y0, -radius,
-                radius, y0, radius,
+                -scaledRadius, y0, scaledRadius,
+                -scaledRadius, y0, -scaledRadius,
+                scaledRadius, y0, -scaledRadius,
+                scaledRadius, y0, scaledRadius,
                 color, emissiveLight, 0, -1, 0,
                 u0, v0, u0, v1, u1, v1, u1, v0);
 
         float vThin = v0 + (v1 - v0) * (THICKNESS / radius);
 
         quad(consumer, matrix,
-                -radius, y0, -radius,
-                -radius, y1, -radius,
-                radius, y1, -radius,
-                radius, y0, -radius,
+                -scaledRadius, y0, -scaledRadius,
+                -scaledRadius, y1, -scaledRadius,
+                scaledRadius, y1, -scaledRadius,
+                scaledRadius, y0, -scaledRadius,
                 color, emissiveLight, 0, 0, -1,
                 u0, v0, u0, vThin, u1, vThin, u1, v0);
 
         quad(consumer, matrix,
-                radius, y0, radius,
-                radius, y1, radius,
-                -radius, y1, radius,
-                -radius, y0, radius,
+                scaledRadius, y0, scaledRadius,
+                scaledRadius, y1, scaledRadius,
+                -scaledRadius, y1, scaledRadius,
+                -scaledRadius, y0, scaledRadius,
                 color, emissiveLight, 0, 0, 1,
                 u0, v0, u0, vThin, u1, vThin, u1, v0);
 
         quad(consumer, matrix,
-                -radius, y0, radius,
-                -radius, y1, radius,
-                -radius, y1, -radius,
-                -radius, y0, -radius,
+                -scaledRadius, y0, scaledRadius,
+                -scaledRadius, y1, scaledRadius,
+                -scaledRadius, y1, -scaledRadius,
+                -scaledRadius, y0, -scaledRadius,
                 color, emissiveLight, -1, 0, 0,
                 u0, v0, u0, vThin, u1, vThin, u1, v0);
 
         quad(consumer, matrix,
-                radius, y0, -radius,
-                radius, y1, -radius,
-                radius, y1, radius,
-                radius, y0, radius,
+                scaledRadius, y0, -scaledRadius,
+                scaledRadius, y1, -scaledRadius,
+                scaledRadius, y1, scaledRadius,
+                scaledRadius, y0, scaledRadius,
                 color, emissiveLight, 1, 0, 0,
                 u0, v0, u0, vThin, u1, vThin, u1, v0);
 
