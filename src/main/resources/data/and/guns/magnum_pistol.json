@@ -2,8 +2,8 @@
   "display": {
     "flash": {
       "size": 0.75,
-      "yOffset": 4.0,
-      "zOffset": -4.5
+      "yOffset": 5.875,
+      "zOffset": -2.75
     }
   },
   "general": {

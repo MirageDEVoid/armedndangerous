@@ -533,6 +533,10 @@
 					"name": "attachment_bone",
 					"parent": "kriss_vector",
 					"pivot": [0, 1.27125, 3.24059]
+				},
+				{
+					"name": "muzzle_flash",
+					"pivot": [0, 3.25, -3]
 				}
 			]
 		}

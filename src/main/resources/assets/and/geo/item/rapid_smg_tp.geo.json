@@ -3,12 +3,12 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.rapid_smg",
+				"identifier": "geometry.rapid_smg_tp",
 				"texture_width": 32,
 				"texture_height": 32,
 				"visible_bounds_width": 3,
-				"visible_bounds_height": 1.5,
-				"visible_bounds_offset": [0, 0.25, 0]
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
 			},
 			"bones": [
 				{
@@ -495,6 +495,10 @@
 					"name": "attachment_bone",
 					"parent": "kriss_vector",
 					"pivot": [0, 1.27125, 3.24059]
+				},
+				{
+					"name": "muzzle_flash",
+					"pivot": [0, 3.25, -3]
 				}
 			]
 		}
