@@ -42,14 +42,15 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
     private static final int FULL_BRIGHT = LightTexture.pack(15, 15);
 
     private static final ResourceLocation WATER_SPRITE_ID = new ResourceLocation("minecraft", "block/water_still");
+    private static final ResourceLocation LAVA_SPRITE_ID  = new ResourceLocation("minecraft", "block/lava_still");
 
     private float[] computeColor(HazardZoneEntity entity, float partialTicks) {
         boolean ignited = entity.isIgnitedSynced();
         if (!ignited) return UNLIT_COLOR;
 
-        float age = entity.getAge() + partialTicks;
+        float effectiveAge = entity.getEffectiveAge() + partialTicks;
         float duration = entity.getHazardType().duration;
-        float remaining = duration - age;
+        float remaining = duration - effectiveAge;
 
         if (remaining < BURNOUT_COLOR_DURATION) {
             float fadeProgress = Mth.clamp(remaining / BURNOUT_COLOR_DURATION, 0F, 1F);
@@ -57,20 +58,20 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
         }
 
         int igniteTick = entity.getIgniteTick();
-        int elapsed = entity.getAge() - igniteTick;
-        float progress = Mth.clamp((elapsed + partialTicks) / TRANSITION_DURATION, 0F, 1F);
+        float elapsed = effectiveAge - igniteTick;
+        float progress = Mth.clamp(elapsed / TRANSITION_DURATION, 0F, 1F);
         return lerpColor(UNLIT_COLOR, IGNITED_COLOR, progress);
     }
 
     private float computeLifecycleScale(HazardZoneEntity entity, float partialTicks) {
-        float age = entity.getAge() + partialTicks;
+        float effectiveAge = entity.getEffectiveAge() + partialTicks;
         float duration = entity.getHazardType().duration;
 
-        if (age < SPAWN_GROW_DURATION) {
-            return Mth.clamp(age / SPAWN_GROW_DURATION, 0F, 1F);
+        if (effectiveAge < SPAWN_GROW_DURATION) {
+            return Mth.clamp(effectiveAge / SPAWN_GROW_DURATION, 0F, 1F);
         }
 
-        float remaining = duration - age;
+        float remaining = duration - effectiveAge;
         if (remaining < DESPAWN_SHRINK_DURATION) {
             return Mth.clamp(remaining / DESPAWN_SHRINK_DURATION, 0F, 1F);
         }
@@ -79,7 +80,13 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
     }
 
     @Override
-    public void render(HazardZoneEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(HazardZoneEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
+                       MultiBufferSource buffer, int packedLight) {
+
+        if (entity.getAge() < entity.getFallDelayTicks()) {
+            return;
+        }
+
         float radius = (float) entity.getHazardType().radius;
 
         float[] color = computeColor(entity, partialTicks);
@@ -89,10 +96,11 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
         float lifecycleScale = computeLifecycleScale(entity, partialTicks);
         float scaledRadius = radius * lifecycleScale;
 
+        ResourceLocation spriteId = ignited ? LAVA_SPRITE_ID : WATER_SPRITE_ID;
         TextureAtlasSprite sprite = Minecraft.getInstance()
                 .getModelManager()
                 .getAtlas(TextureAtlas.LOCATION_BLOCKS)
-                .getSprite(WATER_SPRITE_ID);
+                .getSprite(spriteId);
 
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
@@ -105,58 +113,62 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_BLOCKS));
         Matrix4f matrix = poseStack.last().pose();
 
+        float thickness = entity.getThickness();
         float y0 = 0F;
-        float y1 = THICKNESS;
+        float y1 = thickness;
 
+        // Top
         quad(consumer, matrix,
                 -scaledRadius, y1, -scaledRadius,
-                -scaledRadius, y1, scaledRadius,
-                scaledRadius, y1, scaledRadius,
+                -scaledRadius, y1,  scaledRadius,
+                scaledRadius, y1,  scaledRadius,
                 scaledRadius, y1, -scaledRadius,
                 color, emissiveLight, 0, 1, 0,
-                u0, v0, u0, v1, u1, v1, u1, v0);
+                u0, v0, u0, v1, u1, v1, u1, v0, 0.85F);
 
+        // Bottom
         quad(consumer, matrix,
-                -scaledRadius, y0, scaledRadius,
+                -scaledRadius, y0,  scaledRadius,
                 -scaledRadius, y0, -scaledRadius,
                 scaledRadius, y0, -scaledRadius,
-                scaledRadius, y0, scaledRadius,
+                scaledRadius, y0,  scaledRadius,
                 color, emissiveLight, 0, -1, 0,
-                u0, v0, u0, v1, u1, v1, u1, v0);
+                u0, v0, u0, v1, u1, v1, u1, v0, 0.85F);
 
-        float vThin = v0 + (v1 - v0) * (THICKNESS / radius);
+        float vThin = v0 + (v1 - v0) * (thickness / Math.max(radius, 0.1F));
 
+        // Sides
         quad(consumer, matrix,
                 -scaledRadius, y0, -scaledRadius,
                 -scaledRadius, y1, -scaledRadius,
                 scaledRadius, y1, -scaledRadius,
                 scaledRadius, y0, -scaledRadius,
                 color, emissiveLight, 0, 0, -1,
-                u0, v0, u0, vThin, u1, vThin, u1, v0);
+                u0, v0, u0, vThin, u1, vThin, u1, v0, 0.85F);
 
         quad(consumer, matrix,
-                scaledRadius, y0, scaledRadius,
-                scaledRadius, y1, scaledRadius,
-                -scaledRadius, y1, scaledRadius,
-                -scaledRadius, y0, scaledRadius,
+                scaledRadius, y0,  scaledRadius,
+                scaledRadius, y1,  scaledRadius,
+                -scaledRadius, y1,  scaledRadius,
+                -scaledRadius, y0,  scaledRadius,
                 color, emissiveLight, 0, 0, 1,
-                u0, v0, u0, vThin, u1, vThin, u1, v0);
+                u0, v0, u0, vThin, u1, vThin, u1, v0, 0.85F);
 
         quad(consumer, matrix,
-                -scaledRadius, y0, scaledRadius,
-                -scaledRadius, y1, scaledRadius,
+                -scaledRadius, y0,  scaledRadius,
+                -scaledRadius, y1,  scaledRadius,
                 -scaledRadius, y1, -scaledRadius,
                 -scaledRadius, y0, -scaledRadius,
                 color, emissiveLight, -1, 0, 0,
-                u0, v0, u0, vThin, u1, vThin, u1, v0);
+                u0, v0, u0, vThin, u1, vThin, u1, v0, 0.85F);
 
         quad(consumer, matrix,
                 scaledRadius, y0, -scaledRadius,
                 scaledRadius, y1, -scaledRadius,
-                scaledRadius, y1, scaledRadius,
-                scaledRadius, y0, scaledRadius,
+                scaledRadius, y1,  scaledRadius,
+                scaledRadius, y0,  scaledRadius,
                 color, emissiveLight, 1, 0, 0,
-                u0, v0, u0, vThin, u1, vThin, u1, v0);
+                u0, v0, u0, vThin, u1, vThin, u1, v0, 0.85F);
 
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
@@ -166,11 +178,16 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
                       float x1, float y1, float z1, float x2, float y2, float z2,
                       float x3, float y3, float z3, float x4, float y4, float z4,
                       float[] color, int packedLight, float nx, float ny, float nz,
-                      float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4) {
-        consumer.vertex(matrix, x1, y1, z1).color(color[0], color[1], color[2], 0.8F).uv(u1, v1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
-        consumer.vertex(matrix, x2, y2, z2).color(color[0], color[1], color[2], 0.8F).uv(u2, v2).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
-        consumer.vertex(matrix, x3, y3, z3).color(color[0], color[1], color[2], 0.8F).uv(u3, v3).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
-        consumer.vertex(matrix, x4, y4, z4).color(color[0], color[1], color[2], 0.8F).uv(u4, v4).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
+                      float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4,
+                      float alpha) {
+        consumer.vertex(matrix, x1, y1, z1).color(color[0], color[1], color[2], alpha).uv(u1, v1)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
+        consumer.vertex(matrix, x2, y2, z2).color(color[0], color[1], color[2], alpha).uv(u2, v2)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
+        consumer.vertex(matrix, x3, y3, z3).color(color[0], color[1], color[2], alpha).uv(u3, v3)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
+        consumer.vertex(matrix, x4, y4, z4).color(color[0], color[1], color[2], alpha).uv(u4, v4)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(nx, ny, nz).endVertex();
     }
 
     @Override

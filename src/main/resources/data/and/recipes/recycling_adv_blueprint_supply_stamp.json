@@ -1,0 +1,12 @@
+{
+  "type": "jeg:recycling",
+  "ingredient": {
+    "item": "jeg:advanced_firearm_blueprint"
+  },
+  "result": {
+    "item": "and:supply_stamp",
+    "count": 8
+  },
+  "experience": 20,
+  "recyclingtime": 100
+}

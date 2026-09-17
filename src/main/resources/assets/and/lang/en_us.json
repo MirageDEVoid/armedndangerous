@@ -5,10 +5,20 @@
   "item.and.rapid_smg": "Rapid SMG",
   "item.and.magnum_pistol": "Magnum Pistol",
   "item.and.veterinary_pistol": "Veterinary Pistol",
+  "item.and.gift_of_fire": "Gift Of Fire",
 
   "item.and.heavy_rifle_ammo": "Heavy Rifle Ammo",
+  "item.and.supply_stamp": "Supply Stamp",
 
   "effect.and.incinerated": "Incinerated",
 
-  "advantage.and:stealth": "Stealth"
+  "advantage.and:stealth": "Stealth",
+
+  "info.and.hazard_header": "Spawns a flammable oil puddle on surface hit!",
+  "info.and.hazard_radius": " • Puddle Radius: %s blocks",
+  "info.and.hazard_duration": " • Lasts up to %ss, burns every %ss",
+  "info.and.hazard_owner_reduction": " • You take %s%% reduced hazard damage",
+  "info.and.hazard_headshot_ignite": " • Headshots ignite all your unlit puddles",
+  "info.and.hazard_explosion": " • Headshot explosion: %s power",
+  "info.and.hazard_explosion_destructive": " • Headshot explosion: %s power(destructive)"
 }

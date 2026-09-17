@@ -1,0 +1,33 @@
+{
+  "type": "jeg:gunnite_workbench",
+  "materials": [
+    {
+      "item": "and:supply_stamp",
+      "count": 68
+    },
+    {
+      "item": "jeg:gunnite_ingot",
+      "count": 16
+    },
+    {
+      "item": "minecraft:magma_block",
+      "count": 8
+    },
+    {
+      "item": "minecraft:blaze_powder",
+      "count": 8
+    },
+    {
+      "item": "minecraft:blaze_rod",
+      "count": 4
+    },
+    {
+      "item": "jeg:advanced_firearm_blueprint",
+      "count": 3
+    }
+  ],
+  "result": {
+    "item": "and:gift_of_fire"
+  },
+  "time": 30
+}

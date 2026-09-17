@@ -1,9 +1,6 @@
 package com.miradev.and;
 
-import com.miradev.and.init.ModBlocks;
-import com.miradev.and.init.ModEffects;
-import com.miradev.and.init.ModEntities;
-import com.miradev.and.init.ModItems;
+import com.miradev.and.init.*;
 import com.miradev.and.registry.ModCreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -27,6 +24,7 @@ public class ArmedNDangerous {
         ModBlocks.REGISTER.register(bus);
         ModEffects.REGISTER.register(bus);
         ModEntities.REGISTER.register(bus);
+        ModSounds.REGISTER.register(bus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(bus);
 
         bus.addListener(this::onCommonSetup);
@@ -41,6 +39,8 @@ public class ArmedNDangerous {
     }
 
     private void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+        });
     }
 
     private void onAddReloadListeners(AddReloadListenerEvent event) {

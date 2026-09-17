@@ -1,11 +1,19 @@
 {
   "hazard_zone": {
-    "radius": 4.0,
-    "duration": 600,
+    "radius": 5.0,
+    "duration": 200,
     "tick_interval": 10,
     "applied_effect": "and:incinerated",
     "effect_amplifier": 0,
-    "effect_duration": 60,
+    "effect_duration": 80,
     "owner_damage_multiplier": 0.25
+  },
+  "hazard_trigger": {
+    "gun_id": "and:gift_of_fire",
+    "hazard_type": "and:gift_of_fire",
+    "ignites_owned_on_headshot": true,
+    "explosion_power": 3.5,
+    "explosion_causes_fire": false,
+    "explosion_destroys_blocks": false
   }
 }

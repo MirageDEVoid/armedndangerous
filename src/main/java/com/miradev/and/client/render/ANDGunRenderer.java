@@ -7,11 +7,13 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -22,6 +24,8 @@ import ttv.migami.jeg.client.GunRenderType;
 import ttv.migami.jeg.client.handler.GunRenderingHandler;
 import ttv.migami.jeg.client.handler.ShootingHandler;
 import ttv.migami.jeg.client.render.gun.animated.AnimatedGunRenderer;
+import ttv.migami.jeg.client.render.gun.animated.model.AttachmentRenderer;
+import ttv.migami.jeg.client.util.PropertyHelper;
 import ttv.migami.jeg.common.Gun;
 import ttv.migami.jeg.item.AnimatedGunItem;
 import ttv.migami.jeg.item.GunItem;
@@ -33,9 +37,11 @@ import ttv.migami.jeg.util.GunModifierHelper;
 import java.util.Optional;
 
 public class ANDGunRenderer extends AnimatedGunRenderer {
+
     private final java.util.Set<String> debuggedGuns = new java.util.HashSet<>();
     private final GeoItemRenderer<AnimatedGunItem> tpRenderer;
     private final ANDGunModel tpModel;
+    private final AttachmentRenderer attachmentRenderer;
 
     private ResourceLocation lastTexture = null;
     private ResourceLocation lastModel   = null;
@@ -56,6 +62,12 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
             }
 
             @Override
+            public RenderType getRenderType(AnimatedGunItem animatable, ResourceLocation texture,
+                                            MultiBufferSource bufferSource, float partialTick) {
+                return RenderType.entityCutoutNoCull(texture);
+            }
+
+            @Override
             public void actuallyRender(PoseStack poseStack, AnimatedGunItem animatable, BakedGeoModel model,
                                        RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer,
                                        boolean isReRender, float partialTick, int packedLight, int packedOverlay,
@@ -70,6 +82,7 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
                                           boolean isReRender, float partialTick, int packedLight, int packedOverlay,
                                           float red, float green, float blue, float alpha) {
 
+                // Muzzle flash
                 if (bone.getName().equals("muzzle_flash")) {
                     String gunKey = currentStack != null ? currentStack.getItem().toString() : "unknown";
 
@@ -90,6 +103,11 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
                     }
 
                     renderMuzzleFlashOnBone(poseStack, bufferSource, partialTick);
+                }
+
+                if (bone.getName().equals("attachment_bone") || bone.getName().matches("attachment_bone")) {
+                    renderAttachmentsOnBone(bone, currentStack, poseStack, renderType, bufferSource, buffer,
+                            partialTick, packedLight, packedOverlay);
                 }
 
                 super.renderRecursively(poseStack, animatable, bone, renderType, bufferSource, buffer,
@@ -117,11 +135,79 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
                 RenderSystem.enableDepthTest();
             }
         };
+
+        this.attachmentRenderer = new AttachmentRenderer(this.tpRenderer);
+    }
+
+    private void renderAttachmentsOnBone(GeoBone bone, ItemStack stack, PoseStack poseStack,
+                                         RenderType renderType, MultiBufferSource bufferSource,
+                                         VertexConsumer buffer, float partialTicks,
+                                         int packedLight, int packedOverlay) {
+
+        if (stack == null || !(stack.getItem() instanceof GunItem)) return;
+
+        Gun modifiedGun = ((GunItem) stack.getItem()).getModifiedGun(stack);
+        CompoundTag gunTag = stack.getOrCreateTag();
+        CompoundTag attachments = gunTag.getCompound("Attachments");
+
+        for (String tagKey : attachments.getAllKeys()) {
+            IAttachment.Type type = IAttachment.Type.byTagKey(tagKey);
+            if (type == null || !modifiedGun.canAttachType(type)) continue;
+
+            ItemStack attachmentStack = Gun.getAttachment(type, stack);
+            if (attachmentStack.isEmpty()) continue;
+
+            poseStack.pushPose();
+
+            Vec3 origin = PropertyHelper.getModelOrigin(attachmentStack, PropertyHelper.ATTACHMENT_DEFAULT_ORIGIN);
+            poseStack.translate(-origin.x * 0.0625, -origin.y * 0.0625, -origin.z * 0.0625);
+
+            Vec3 gunOrigin = PropertyHelper.getModelOrigin(stack, PropertyHelper.GUN_DEFAULT_ORIGIN);
+            poseStack.translate(gunOrigin.x * 0.0625, gunOrigin.y * 0.0625, gunOrigin.z * 0.0625);
+
+            Vec3 translation = PropertyHelper.getAttachmentPosition(stack, modifiedGun, type).subtract(gunOrigin);
+            poseStack.translate(translation.x * 0.0625, translation.y * 0.0625, translation.z * 0.0625);
+
+            Vec3 scale = PropertyHelper.getAttachmentScale(stack, modifiedGun, type);
+            Vec3 center = origin.subtract(8, 8, 8).scale(0.0625);
+            poseStack.translate(center.x, center.y, center.z);
+            poseStack.scale((float) scale.x, (float) scale.y, (float) scale.z);
+            poseStack.translate(-center.x, -center.y, -center.z);
+
+            // Correct texture path for attachments
+            String modId = getModId(stack);
+            ResourceLocation newTexture;
+
+            if (stack.hasTag()
+                    && Gun.getAttachment(IAttachment.Type.PAINT_JOB, stack).getItem() instanceof PaintJobCanItem paintJobCanItem) {
+                newTexture = new ResourceLocation(modId,
+                        "textures/animated/attachment/paintjob/" + paintJobCanItem.getPaintJob() + "/"
+                                + attachmentStack.getItem() + ".png");
+            } else {
+                newTexture = new ResourceLocation(modId,
+                        "textures/animated/attachment/" + attachmentStack.getItem() + ".png");
+            }
+
+            // Use the fixed helper that knows the difference between gun & attachment
+            newTexture = getValidTexture(newTexture, attachmentStack);
+
+            attachmentRenderer.updateTexture(newTexture);
+            attachmentRenderer.updateAttachment(attachmentStack);
+            attachmentRenderer.renderForBone(poseStack, (AnimatedGunItem) stack.getItem(), bone,
+                    renderType, bufferSource, buffer, partialTicks, packedLight, packedOverlay);
+
+            poseStack.popPose();
+        }
     }
 
     private void renderMuzzleFlashOnBone(PoseStack poseStack, MultiBufferSource bufferSource, float partialTick) {
         if (currentStack == null || !(currentStack.getItem() instanceof GunItem))
             return;
+
+        if (currentContext != ItemDisplayContext.THIRD_PERSON_RIGHT_HAND
+                && currentContext != ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
+            return;
+        }
 
         if (currentEntity == null || !GunRenderingHandler.entityIdForMuzzleFlash.contains(currentEntity.getId()))
             return;
@@ -167,17 +253,25 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
         poseStack.popPose();
     }
 
+    private String getModId(ItemStack stack) {
+        String modId = stack.getItem().getCreatorModId(stack);
+        return modId != null ? modId : "and";
+    }
+
     private ResourceLocation getValidTexture(ResourceLocation texture, ItemStack stack) {
         Optional<Resource> resource = Minecraft.getInstance().getResourceManager().getResource(texture);
         if (resource.isPresent()) {
             return texture;
         }
-        return new ResourceLocation(
-                stack.getItem().getCreatorModId(stack) != null
-                        ? stack.getItem().getCreatorModId(stack)
-                        : "and",
-                "textures/animated/gun/" + stack.getItem() + ".png"
-        );
+
+        // Fallback that matches original JEG behaviour
+        if (stack.getItem() instanceof GunItem) {
+            return new ResourceLocation(getModId(stack),
+                    "textures/animated/gun/" + stack.getItem() + ".png");
+        } else {
+            return new ResourceLocation(getModId(stack),
+                    "textures/animated/attachment/" + stack.getItem() + ".png");
+        }
     }
 
     private ResourceLocation getValidModel(ResourceLocation model, ItemStack stack) {
@@ -186,16 +280,13 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
             return model;
         }
         return new ResourceLocation(
-                stack.getItem().getCreatorModId(stack) != null
-                        ? stack.getItem().getCreatorModId(stack)
-                        : "and",
+                getModId(stack),
                 "geo/item/" + stack.getItem() + "_tp.geo.json"
         );
     }
 
     private void updateTpResources(ItemStack stack) {
-        String modId = stack.getItem().getCreatorModId(stack);
-        if (modId == null) modId = "and";
+        String modId = getModId(stack);
 
         ResourceLocation newTexture;
         ResourceLocation newModel;
@@ -250,7 +341,14 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
                 || !context.firstPerson()) {
 
             updateTpResources(stack);
-            tpRenderer.renderByItem(stack, context, poseStack, bufferSource, packedLight, packedOverlay);
+
+            ItemStack renderStack = stack;
+            if (stack.isEnchanted()) {
+                renderStack = stack.copy();
+                renderStack.removeTagKey("Enchantments");
+            }
+
+            tpRenderer.renderByItem(renderStack, context, poseStack, bufferSource, packedLight, packedOverlay);
         } else {
             super.renderByItem(stack, context, poseStack, bufferSource, packedLight, packedOverlay);
         }

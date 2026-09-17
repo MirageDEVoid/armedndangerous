@@ -6,5 +6,29 @@
         "name": "and:item/magnum_pistol/fire"
       }
     ]
+  },
+  "item.gift_of_fire.fire": {
+    "subtitle": "subtitle.jeg.fire",
+    "sounds": [
+      {
+        "name": "and:item/gift_of_fire/fire"
+      }
+    ]
+  },
+  "item.gift_of_fire.bolt_pull": {
+    "subtitle": "subtitle.jeg.reload",
+    "sounds": [
+      {
+        "name": "and:item/gift_of_fire/bolt_pull"
+      }
+    ]
+  },
+  "item.gift_of_fire.bolt_release": {
+    "subtitle": "subtitle.jeg.reload",
+    "sounds": [
+      {
+        "name": "and:item/gift_of_fire/bolt_release"
+      }
+    ]
   }
 }

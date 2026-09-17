@@ -49,13 +49,19 @@ public class HazardDebugCommands {
 
         HazardZoneType type = HazardZoneRegistry.get(id);
         if (type == null) {
-            source.sendFailure(Component.literal("No HazardZoneType found for '" + id + "' — check your extra json loaded correctly."));
+            source.sendFailure(Component.literal("No HazardZoneType found for '" + id + "' — check extra json."));
             return 0;
         }
 
-        HazardZoneEntity zone = new HazardZoneEntity(
+        HazardZoneEntity zone = HazardZoneEntity.tryCreate(
                 player.level(), player.getX(), player.getY(), player.getZ(), type, player
         );
+
+        if (zone == null) {
+            source.sendFailure(Component.literal("No solid ground found within range, spawn cancelled."));
+            return 0;
+        }
+
         player.level().addFreshEntity(zone);
         HazardZoneManager.register(zone);
 
