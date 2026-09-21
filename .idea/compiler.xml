@@ -6,7 +6,6 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/6d1c8bf4c28e697f472a83bd6add76ec4951734/mixin-0.8.5-processor.jar" />
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.llamalad7/mixinextras-common/0.5.5/50d37e763fe461b5e9df961436b399e9b681ac35/mixinextras-common-0.5.5.jar" />
         </processorPath>
         <module name="and.main" />
       </profile>
