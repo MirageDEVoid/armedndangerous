@@ -7,15 +7,15 @@
     },
     {
       "item": "jeg:gunnite_ingot",
-      "count": 16
+      "count": 24
     },
     {
       "item": "minecraft:magma_block",
       "count": 8
     },
     {
-      "item": "minecraft:blaze_powder",
-      "count": 8
+      "item": "minecraft:netherite_ingot",
+      "count": 2
     },
     {
       "item": "minecraft:blaze_rod",

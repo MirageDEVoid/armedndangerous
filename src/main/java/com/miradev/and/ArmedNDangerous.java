@@ -1,11 +1,15 @@
 package com.miradev.and;
 
+import com.miradev.and.fragment.FragmentConfig;
 import com.miradev.and.init.*;
+import com.miradev.and.network.ANDNetwork;
 import com.miradev.and.registry.ModCreativeTabs;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -18,7 +22,6 @@ public class ArmedNDangerous {
 
     public ArmedNDangerous() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        MinecraftForge.EVENT_BUS.register(this);
 
         ModItems.REGISTER.register(bus);
         ModBlocks.REGISTER.register(bus);
@@ -26,23 +29,12 @@ public class ArmedNDangerous {
         ModEntities.REGISTER.register(bus);
         ModSounds.REGISTER.register(bus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(bus);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, FragmentConfig.SPEC, "and-fragmentation.toml");
 
         bus.addListener(this::onCommonSetup);
-        bus.addListener(this::onClientSetup);
-
-        MinecraftForge.EVENT_BUS.addListener(this::onAddReloadListeners);
     }
 
     private void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-        });
-    }
-
-    private void onClientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-        });
-    }
-
-    private void onAddReloadListeners(AddReloadListenerEvent event) {
+        event.enqueueWork(ANDNetwork::register);
     }
 }

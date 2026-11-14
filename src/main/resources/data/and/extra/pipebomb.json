@@ -1,0 +1,19 @@
+{
+  "fragmentation": {
+    "sources": [
+      "and:pipebomb"
+    ],
+    "count": 32,
+    "bounce": 1,
+    "bounce_loss": 0.5,
+    "aim_bias": 0.5,
+    "max_aimed_per_target": 4,
+    "damage": 2.0,
+    "falloff": 0.5,
+    "range": 16.0,
+    "hit_radius": 1.0,
+    "visual": {
+      "color": "#C8C8C8"
+    }
+  }
+}

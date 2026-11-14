@@ -1,0 +1,25 @@
+{
+  "type": "jeg:scrap_workbench",
+  "materials": [
+    {
+      "item": "jeg:scrap",
+      "count": 32
+    },
+    {
+      "tag": "forge:ingots/copper",
+      "count": 12
+    },
+    {
+      "tag": "forge:ingots/iron",
+      "count": 8
+    },
+    {
+      "item": "minecraft:repeater",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "and:nailgun"
+  },
+  "time": 30
+}

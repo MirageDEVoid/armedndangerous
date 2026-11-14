@@ -1,0 +1,12 @@
+{
+  "type": "jeg:recycling",
+  "ingredient": {
+    "item": "and:ranger_smg"
+  },
+  "result": {
+    "item": "jeg:gunmetal_ingot",
+    "count": 4
+  },
+  "experience": 0,
+  "recyclingtime": 200
+}

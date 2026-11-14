@@ -82,7 +82,6 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
                                           boolean isReRender, float partialTick, int packedLight, int packedOverlay,
                                           float red, float green, float blue, float alpha) {
 
-                // Muzzle flash
                 if (bone.getName().equals("muzzle_flash")) {
                     String gunKey = currentStack != null ? currentStack.getItem().toString() : "unknown";
 
@@ -174,7 +173,6 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
             poseStack.scale((float) scale.x, (float) scale.y, (float) scale.z);
             poseStack.translate(-center.x, -center.y, -center.z);
 
-            // Correct texture path for attachments
             String modId = getModId(stack);
             ResourceLocation newTexture;
 
@@ -188,7 +186,6 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
                         "textures/animated/attachment/" + attachmentStack.getItem() + ".png");
             }
 
-            // Use the fixed helper that knows the difference between gun & attachment
             newTexture = getValidTexture(newTexture, attachmentStack);
 
             attachmentRenderer.updateTexture(newTexture);
@@ -264,7 +261,6 @@ public class ANDGunRenderer extends AnimatedGunRenderer {
             return texture;
         }
 
-        // Fallback that matches original JEG behaviour
         if (stack.getItem() instanceof GunItem) {
             return new ResourceLocation(getModId(stack),
                     "textures/animated/gun/" + stack.getItem() + ".png");

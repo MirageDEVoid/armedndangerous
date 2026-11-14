@@ -1,0 +1,50 @@
+{
+  "display": {
+    "flash": {
+      "size": 0.75,
+      "yOffset": 5.0,
+      "zOffset": -10.0
+    }
+  },
+  "general": {
+    "drawTimer": 25,
+    "fireMode": "jeg:semi_auto",
+    "gripType": "jeg:two_handed",
+    "jamTimer": 70,
+    "rate": 20,
+    "recoilAngle": 2.0,
+    "recoilKick": 1.0,
+    "spread": 4.0
+  },
+  "modules": {
+    "zoom": {
+      "fovModifier": 0.8,
+      "yOffset": 4.125,
+      "zOffset": 0.25
+    }
+  },
+  "projectile": {
+    "damage": 7.5,
+    "ejectsCasing": true,
+    "headshotMultiplier": 1.5,
+    "item": "jeg:pistol_ammo",
+    "life": 60,
+    "size": 0.1,
+    "speed": 8.0,
+    "trailLengthMultiplier": 2.0
+  },
+  "reloads": {
+    "additionalReloadTimer": 25,
+    "maxAmmo": 8,
+    "reloadTimer": 25,
+    "reloadType": "jeg:mag_fed"
+  },
+  "sounds": {
+    "ejectorPull": "and:item.pump_action_carbine.pump_pull",
+    "ejectorRelease": "and:item.pump_action_carbine.pump_release",
+    "fire": "and:item.pump_action_carbine.fire",
+    "reloadEnd": "and:item.pump_action_carbine.pump_release",
+    "reloadLoad": "jeg:item.assault_rifle.reload_magazine_in",
+    "reloadStart": "jeg:item.assault_rifle.reload_magazine_out"
+  }
+}

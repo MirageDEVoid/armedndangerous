@@ -1,0 +1,50 @@
+{
+  "display": {
+    "flash": {
+      "size": 0.75,
+      "yOffset": 5.0,
+      "zOffset": -13.0
+    }
+  },
+  "general": {
+    "drawTimer": 20,
+    "fireMode": "jeg:semi_auto",
+    "gripType": "jeg:two_handed",
+    "jamTimer": 70,
+    "rate": 20,
+    "recoilAngle": 6.0,
+    "recoilKick": 2.5,
+    "spread": 3.0,
+    "alwaysSpread": true
+  },
+  "modules": {
+    "zoom": {
+      "fovModifier": 0.8,
+      "yOffset": 4.5,
+      "zOffset": -1.5
+    }
+  },
+  "projectile": {
+    "damage": 10.0,
+    "ejectsCasing": true,
+    "headshotMultiplier": 1.5,
+    "item": "jeg:handmade_shell",
+    "life": 100,
+    "size": 0.1,
+    "speed": 4.0,
+    "trailLengthMultiplier": 2.0
+  },
+  "reloads": {
+    "additionalReloadTimer": 0,
+    "maxAmmo": 1,
+    "reloadTimer": 30,
+    "reloadType": "jeg:mag_fed"
+  },
+  "sounds": {
+    "fire": "and:item.trapdoor_rifle.fire",
+    "ejectorPull": "and:item.gift_of_fire.bolt_pull",
+    "reloadEnd": "minecraft:block.wooden_trapdoor.close",
+    "reloadLoad": "jeg:item.bolt_action_rifle.bullet_in",
+    "reloadStart": "minecraft:block.wooden_trapdoor.open"
+  }
+}

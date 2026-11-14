@@ -1,0 +1,25 @@
+{
+  "type": "jeg:blueprint_workbench",
+  "materials": [
+    {
+      "tag": "minecraft:planks",
+      "count": 32
+    },
+    {
+      "item": "jeg:scrap",
+      "count": 16
+    },
+    {
+      "tag": "forge:ingots/copper",
+      "count": 6
+    },
+    {
+      "tag": "forge:ingots/iron",
+      "count": 4
+    }
+  ],
+  "result": {
+    "item": "and:trapdoor_rifle"
+  },
+  "time": 30
+}

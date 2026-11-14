@@ -1,0 +1,12 @@
+{
+  "type": "jeg:recycling",
+  "ingredient": {
+    "item": "and:nailgun"
+  },
+  "result": {
+    "item": "jeg:scrap",
+    "count": 12
+  },
+  "experience": 0,
+  "recyclingtime": 150
+}

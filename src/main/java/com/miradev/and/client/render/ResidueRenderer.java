@@ -1,7 +1,8 @@
 package com.miradev.and.client.render;
 
 import com.miradev.and.Reference;
-import com.miradev.and.entity.HazardZoneEntity;
+import com.miradev.and.common.ResidueProfile;
+import com.miradev.and.entity.ResidueEntity;
 import com.miradev.and.init.ModEntities;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -23,16 +24,13 @@ import net.minecraftforge.fml.common.Mod;
 import org.joml.Matrix4f;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
+public class ResidueRenderer extends EntityRenderer<ResidueEntity> {
 
-    public HazardZoneRenderer(EntityRendererProvider.Context context) {
+    public ResidueRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     private static final int TRANSITION_DURATION = 20;
-    private static final float[] UNLIT_COLOR = {0.15F, 0.10F, 0.06F};
-    private static final float[] IGNITED_COLOR = {1.0F, 0.45F, 0.1F};
-    private static final float THICKNESS = 0.1F;
     private static final float GROUND_OFFSET = 0.01F;
 
     private static final int SPAWN_GROW_DURATION = 10;
@@ -41,31 +39,32 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
 
     private static final int FULL_BRIGHT = LightTexture.pack(15, 15);
 
-    private static final ResourceLocation WATER_SPRITE_ID = new ResourceLocation("minecraft", "block/water_still");
-    private static final ResourceLocation LAVA_SPRITE_ID  = new ResourceLocation("minecraft", "block/lava_still");
+    private float[] computeColor(ResidueEntity e, float pt) {
+        ResidueProfile.Look lit = e.getIgnitedLook();
+        int base = e.getLook().color();
+        if (lit == null || !e.isActive()) return rgb(base);
 
-    private float[] computeColor(HazardZoneEntity entity, float partialTicks) {
-        boolean ignited = entity.isIgnitedSynced();
-        if (!ignited) return UNLIT_COLOR;
-
-        float effectiveAge = entity.getEffectiveAge() + partialTicks;
-        float duration = entity.getHazardType().duration;
-        float remaining = duration - effectiveAge;
-
+        float age = e.getEffectiveAge() + pt;
+        float remaining = e.getLifetime() - age;
         if (remaining < BURNOUT_COLOR_DURATION) {
-            float fadeProgress = Mth.clamp(remaining / BURNOUT_COLOR_DURATION, 0F, 1F);
-            return lerpColor(UNLIT_COLOR, IGNITED_COLOR, fadeProgress);
+            return lerpColor(base, lit.color(), Mth.clamp(remaining / BURNOUT_COLOR_DURATION, 0F, 1F));
         }
-
-        int igniteTick = entity.getIgniteTick();
-        float elapsed = effectiveAge - igniteTick;
-        float progress = Mth.clamp(elapsed / TRANSITION_DURATION, 0F, 1F);
-        return lerpColor(UNLIT_COLOR, IGNITED_COLOR, progress);
+        float progress = Mth.clamp((age - e.getIgniteTick()) / TRANSITION_DURATION, 0F, 1F);
+        return lerpColor(base, lit.color(), progress);
     }
 
-    private float computeLifecycleScale(HazardZoneEntity entity, float partialTicks) {
+    private static float[] rgb(int c) {
+        return new float[]{(c >> 16 & 255) / 255F, (c >> 8 & 255) / 255F, (c & 255) / 255F};
+    }
+
+    private static float[] lerpColor(int a, int b, float t) {
+        float[] x = rgb(a), y = rgb(b);
+        return new float[]{Mth.lerp(t, x[0], y[0]), Mth.lerp(t, x[1], y[1]), Mth.lerp(t, x[2], y[2])};
+    }
+
+    private float computeLifecycleScale(ResidueEntity entity, float partialTicks) {
         float effectiveAge = entity.getEffectiveAge() + partialTicks;
-        float duration = entity.getHazardType().duration;
+        float duration = entity.getLifetime();
 
         if (effectiveAge < SPAWN_GROW_DURATION) {
             return Mth.clamp(effectiveAge / SPAWN_GROW_DURATION, 0F, 1F);
@@ -80,27 +79,25 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
     }
 
     @Override
-    public void render(HazardZoneEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
+    public void render(ResidueEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
                        MultiBufferSource buffer, int packedLight) {
 
         if (entity.getAge() < entity.getFallDelayTicks()) {
             return;
         }
 
-        float radius = (float) entity.getHazardType().radius;
-
+        float radius = (float) entity.getRadius();
+        boolean lit = entity.isActive() && entity.getIgnitedLook() != null;
+        ResidueProfile.Look look = lit ? entity.getIgnitedLook() : entity.getLook();
         float[] color = computeColor(entity, partialTicks);
-        boolean ignited = entity.isIgnitedSynced();
-        int emissiveLight = ignited ? FULL_BRIGHT : packedLight;
+        int emissiveLight = lit ? FULL_BRIGHT : packedLight;
 
-        float lifecycleScale = computeLifecycleScale(entity, partialTicks);
-        float scaledRadius = radius * lifecycleScale;
+        float scaledRadius = radius * computeLifecycleScale(entity, partialTicks);
 
-        ResourceLocation spriteId = ignited ? LAVA_SPRITE_ID : WATER_SPRITE_ID;
         TextureAtlasSprite sprite = Minecraft.getInstance()
                 .getModelManager()
                 .getAtlas(TextureAtlas.LOCATION_BLOCKS)
-                .getSprite(spriteId);
+                .getSprite(look.sprite());
 
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
@@ -117,7 +114,7 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
         float y0 = 0F;
         float y1 = thickness;
 
-        // Top
+        // top face
         quad(consumer, matrix,
                 -scaledRadius, y1, -scaledRadius,
                 -scaledRadius, y1,  scaledRadius,
@@ -126,7 +123,7 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
                 color, emissiveLight, 0, 1, 0,
                 u0, v0, u0, v1, u1, v1, u1, v0, 0.85F);
 
-        // Bottom
+        // bottom face
         quad(consumer, matrix,
                 -scaledRadius, y0,  scaledRadius,
                 -scaledRadius, y0, -scaledRadius,
@@ -137,7 +134,7 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
 
         float vThin = v0 + (v1 - v0) * (thickness / Math.max(radius, 0.1F));
 
-        // Sides
+        // sides
         quad(consumer, matrix,
                 -scaledRadius, y0, -scaledRadius,
                 -scaledRadius, y1, -scaledRadius,
@@ -191,7 +188,7 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(HazardZoneEntity entity) {
+    public ResourceLocation getTextureLocation(ResidueEntity entity) {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 
@@ -205,6 +202,6 @@ public class HazardZoneRenderer extends EntityRenderer<HazardZoneEntity> {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.HAZARD_ZONE.get(), HazardZoneRenderer::new);
+        event.registerEntityRenderer(ModEntities.RESIDUE.get(), ResidueRenderer::new);
     }
 }

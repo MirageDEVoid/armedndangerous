@@ -1,34 +1,20 @@
 package com.miradev.and.effect;
 
-import net.minecraft.world.effect.MobEffect;
+import com.miradev.and.Reference;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+public class IncineratedEffect extends ScalingDamageEffect {
+    public static final ResourceKey<DamageType> DAMAGE_TYPE =
+            ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Reference.MOD_ID, "incinerated"));
 
-public class IncineratedEffect extends MobEffect {
+    // interval, base, step, multiplier, cap, visual fire
+    private static final Params DEFAULTS = new Params(10, 1.0F, 2, 1.5F, 96.0F, true);
 
     public IncineratedEffect() {
-        super(MobEffectCategory.HARMFUL, 0xFF4500);
-    }
-
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return true;
-    }
-
-    @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
-        if (entity.tickCount % 10 != 0) return;
-
-        entity.setSecondsOnFire(1);
-        entity.hurt(entity.damageSources().onFire(), 4.0f);
-    }
-
-    @Override
-    public List<ItemStack> getCurativeItems() {
-        return new ArrayList<>();
+        super(MobEffectCategory.HARMFUL, 0xFF4500, DAMAGE_TYPE, () -> DEFAULTS);
     }
 }

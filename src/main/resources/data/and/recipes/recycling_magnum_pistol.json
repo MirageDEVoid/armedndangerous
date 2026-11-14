@@ -1,0 +1,12 @@
+{
+  "type": "jeg:recycling",
+  "ingredient": {
+    "item": "and:magnum_pistol"
+  },
+  "result": {
+    "item": "jeg:gunnite_ingot",
+    "count": 6
+  },
+  "experience": 0,
+  "recyclingtime": 200
+}

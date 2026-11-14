@@ -1,0 +1,54 @@
+{
+  "display": {
+    "flash": {
+      "size": 0.75,
+      "yOffset": 4.5,
+      "zOffset": -4.5
+    }
+  },
+  "general": {
+    "alwaysSpread": true,
+    "silenced": true,
+    "drawTimer": 12,
+    "fireMode": "jeg:automatic",
+    "gripType": "jeg:one_handed",
+    "rate": 2,
+    "recoilAngle": 1.0,
+    "recoilKick": 0.1,
+    "spread": 7.5
+  },
+  "modules": {
+    "zoom": {
+      "fovModifier": 0.8,
+      "yOffset": 4.8,
+      "zOffset": -2.0
+    }
+  },
+  "projectile": {
+    "damage": 4.0,
+    "ejectsCasing": false,
+    "gravity": true,
+    "hideTrail": true,
+    "headshotMultiplier": 1.0,
+    "item": "jeg:scrap",
+    "life": 600,
+    "size": 0.05,
+    "speed": 0.75,
+    "trailColor": -256,
+    "trailLengthMultiplier": 0.0
+  },
+  "reloads": {
+    "additionalReloadTimer": 0,
+    "maxAmmo": 20,
+    "reloadTimer": 50,
+    "reloadType": "jeg:mag_fed"
+  },
+  "sounds": {
+    "ejectorPull": "jeg:item.combat_rifle.ejector_pull",
+    "ejectorRelease": "jeg:item.combat_rifle.ejector_release",
+    "fire": "jeg:item.revolver.silenced_fire",
+    "reloadEnd": "jeg:item.combat_rifle.reload_ejector",
+    "reloadLoad": "jeg:item.service_rifle.reload_magazine_in",
+    "reloadStart": "jeg:item.combat_rifle.reload_magazine_out"
+  }
+}

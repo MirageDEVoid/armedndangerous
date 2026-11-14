@@ -35,10 +35,9 @@
     "damage": 16.0,
     "ejectsCasing": true,
     "headshotMultiplier": 2.0,
-    "hideTrail": true,
     "item": "jeg:blaze_round",
     "life": 200,
-    "size": 0.25,
+    "size": 0.1,
     "speed": 16.0,
     "trailLengthMultiplier": 2.0
   },
@@ -51,7 +50,6 @@
   "sounds": {
     "ejectorPull": "and:item.gift_of_fire.bolt_pull",
     "ejectorRelease": "and:item.gift_of_fire.bolt_release",
-    "enchantedFire": "and:item.gift_of_fire.fire",
     "fire": "and:item.gift_of_fire.fire",
     "reloadEnd": "and:item.gift_of_fire.bolt_release",
     "reloadLoad": "jeg:item.assault_rifle.reload_magazine_in",

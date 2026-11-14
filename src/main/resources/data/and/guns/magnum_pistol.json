@@ -18,14 +18,14 @@
   },
   "modules": {
     "zoom": {
-      "fovModifier": 0.8,
+      "fovModifier": 1.1,
       "yOffset": 4.9,
-      "zOffset": -2.0
+      "zOffset": -3.5
     }
   },
   "projectile": {
     "advantage": "jeg:very_heavy",
-    "damage": 11,
+    "damage": 10.5,
     "ejectsCasing": true,
     "gravity": true,
     "headshotMultiplier": 2.0,

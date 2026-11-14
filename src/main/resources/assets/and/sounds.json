@@ -15,6 +15,38 @@
       }
     ]
   },
+  "item.trapdoor_rifle.fire": {
+    "subtitle": "subtitle.jeg.fire",
+    "sounds": [
+      {
+        "name": "and:item/trapdoor_rifle/fire"
+      }
+    ]
+  },
+  "item.pump_action_carbine.fire": {
+    "subtitle": "subtitle.jeg.fire",
+    "sounds": [
+      {
+        "name": "and:item/pump_action_carbine/fire"
+      }
+    ]
+  },
+  "item.pump_action_carbine.pump_pull": {
+    "subtitle": "subtitle.jeg.reload",
+    "sounds": [
+      {
+        "name": "and:item/pump_action_carbine/pump_pull"
+      }
+    ]
+  },
+  "item.pump_action_carbine.pump_release": {
+    "subtitle": "subtitle.jeg.reload",
+    "sounds": [
+      {
+        "name": "and:item/pump_action_carbine/pump_release"
+      }
+    ]
+  },
   "item.gift_of_fire.bolt_pull": {
     "subtitle": "subtitle.jeg.reload",
     "sounds": [

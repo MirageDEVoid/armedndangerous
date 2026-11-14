@@ -1,0 +1,12 @@
+{
+  "type": "jeg:recycling",
+  "ingredient": {
+    "item": "and:pump_action_carbine"
+  },
+  "result": {
+    "item": "jeg:scrap",
+    "count": 16
+  },
+  "experience": 0,
+  "recyclingtime": 150
+}

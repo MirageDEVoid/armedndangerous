@@ -38,7 +38,6 @@
   "sounds": {
     "ejectorPull": "jeg:item.bolt_action_rifle.bolt_pull",
     "ejectorRelease": "jeg:item.bolt_action_rifle.bolt_release",
-    "enchantedFire": "jeg:item.burst_rifle.silenced_fire",
     "fire": "jeg:item.burst_rifle.silenced_fire",
     "reloadEnd": "jeg:item.bolt_action_rifle.bolt_release",
     "reloadLoad": "jeg:item.assault_rifle.reload_magazine_in",

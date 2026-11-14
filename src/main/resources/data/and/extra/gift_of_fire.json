@@ -1,19 +1,26 @@
 {
-  "hazard_zone": {
-    "radius": 5.0,
-    "duration": 200,
-    "tick_interval": 10,
-    "applied_effect": "and:incinerated",
-    "effect_amplifier": 0,
-    "effect_duration": 80,
-    "owner_damage_multiplier": 0.25
-  },
-  "hazard_trigger": {
-    "gun_id": "and:gift_of_fire",
-    "hazard_type": "and:gift_of_fire",
-    "ignites_owned_on_headshot": true,
-    "explosion_power": 3.5,
-    "explosion_causes_fire": false,
-    "explosion_destroys_blocks": false
+  "residue": {
+    "radius": 4.5,
+    "lifetime": 200,
+    "interval": 10,
+    "effect": { "id": "and:incinerated", "duration": 40, "stacking": true, "max_duration": 600, "skip_fire_immune": true },
+    "affects_owner": false,
+    "visual": {
+      "sprite": "minecraft:block/water_still",
+      "color": "#261A0F",
+      "particles": ["minecraft:ash"]
+    },
+    "ignition": {
+      "sprite": "minecraft:block/lava_still",
+      "color": "#FF731A",
+      "particles": ["minecraft:flame", "minecraft:lava"],
+      "ignited_by": ["minecraft:fire", "minecraft:lava", "minecraft:soul_fire"],
+      "spreads": true
+    },
+    "triggers": [{
+      "gun": "and:gift_of_fire",
+      "on_headshot": { "ignite_owned": true, "explosion": { "power": 3.5 } },
+      "on_block": {}
+    }]
   }
 }

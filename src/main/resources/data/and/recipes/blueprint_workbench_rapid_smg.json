@@ -2,8 +2,12 @@
   "type": "jeg:blueprint_workbench",
   "materials": [
     {
+      "item": "jeg:scrap",
+      "count": 48
+    },
+    {
       "item": "jeg:gunnite_ingot",
-      "count": 16
+      "count": 12
     },
     {
       "item": "minecraft:sandstone",
@@ -14,16 +18,8 @@
       "count": 2
     },
     {
-      "item": "jeg:scrap",
-      "count": 72
-    },
-    {
       "item": "jeg:firearm_blueprint",
       "count": 3
-    },
-    {
-      "item": "jeg:advanced_firearm_blueprint",
-      "count": 1
     }
   ],
   "result": {

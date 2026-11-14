@@ -1,0 +1,26 @@
+{
+  "type": "jeg:gunmetal_workbench",
+  "materials": [
+    {
+      "item": "jeg:scrap",
+      "count": 16
+    },
+    {
+      "item": "minecraft:gunpowder",
+      "count": 4
+    },
+    {
+      "tag": "forge:ingots/iron",
+      "count": 2
+    },
+    {
+      "item": "jeg:tech_trash",
+      "count": 2
+    }
+  ],
+  "result": {
+    "item": "and:pipebomb",
+    "count": 2
+  },
+  "time": 30
+}

@@ -1,0 +1,33 @@
+{
+  "type": "jeg:blueprint_workbench",
+  "materials": [
+    {
+      "item": "jeg:scrap",
+      "count": 24
+    },
+    {
+      "tag": "minecraft:planks",
+      "count": 16
+    },
+    {
+      "tag": "forge:ingots/copper",
+      "count": 12
+    },
+    {
+      "tag": "forge:ingots/iron",
+      "count": 8
+    },
+    {
+      "item": "jeg:repair_kit",
+      "count": 2
+    },
+    {
+      "item": "jeg:firearm_blueprint",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "and:pump_action_carbine"
+  },
+  "time": 30
+}

@@ -3,22 +3,29 @@
 
   "item.and.ranger_smg": "Ranger SMG",
   "item.and.rapid_smg": "Rapid SMG",
+  "item.and.nailgun": "Nailgun",
   "item.and.magnum_pistol": "Magnum Pistol",
   "item.and.veterinary_pistol": "Veterinary Pistol",
   "item.and.gift_of_fire": "Gift Of Fire",
+  "item.and.trapdoor_rifle": "Trapdoor Rifle",
+  "item.and.pump_action_carbine": "Pump-Action Carbine",
 
   "item.and.heavy_rifle_ammo": "Heavy Rifle Ammo",
   "item.and.supply_stamp": "Supply Stamp",
+  "item.and.pipebomb": "Pipebomb",
 
   "effect.and.incinerated": "Incinerated",
 
   "advantage.and:stealth": "Stealth",
 
-  "info.and.hazard_header": "Spawns a flammable oil puddle on surface hit!",
-  "info.and.hazard_radius": " • Puddle Radius: %s blocks",
-  "info.and.hazard_duration": " • Lasts up to %ss, burns every %ss",
-  "info.and.hazard_owner_reduction": " • You take %s%% reduced hazard damage",
-  "info.and.hazard_headshot_ignite": " • Headshots ignite all your unlit puddles",
-  "info.and.hazard_explosion": " • Headshot explosion: %s power",
-  "info.and.hazard_explosion_destructive": " • Headshot explosion: %s power(destructive)"
+  "info.and.residue_header": "Spawns a flammable oil puddle on surface hit!",
+  "info.and.residue_radius": " • Puddle Radius: %s blocks",
+  "info.and.residue_duration": " • Lasts up to %ss, burns every %ss",
+  "info.and.residue_owner_reduction": " • You take %s%% reduced residue damage",
+  "info.and.residue_headshot_ignite": " • Headshots ignite all your unlit puddles",
+  "info.and.residue_explosion": " • Headshot explosion: %s power",
+  "info.and.residue_explosion_destructive": " • Headshot explosion: %s power(destructive)",
+
+  "death.attack.and.incinerated": "%1$s was incinerated",
+  "death.attack.and.incinerated.player": "%1$s was incinerated by %2$s"
 }

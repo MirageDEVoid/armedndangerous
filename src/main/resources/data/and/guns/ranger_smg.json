@@ -7,14 +7,14 @@
     }
   },
   "general": {
-    "alwaysSpread": false,
+    "alwaysSpread": true,
     "drawTimer": 16,
     "fireMode": "jeg:automatic",
     "gripType": "jeg:two_handed",
     "rate": 3,
     "recoilAngle": 1.75,
     "recoilKick": 0.75,
-    "spread": 3.0
+    "spread": 4.0
   },
   "modules": {
     "zoom": {
@@ -49,7 +49,5 @@
     "reloadEnd": "jeg:item.assault_rifle.ejector_pull",
     "reloadLoad": "jeg:item.assault_rifle.reload_magazine_out",
     "reloadStart": "jeg:item.assault_rifle.reload_magazine_in",
-    "stockUnfold": "jeg:item.gun_rustle.rustle3",
-    "gunRustle": "jeg:item.gun_rustle.rustle6"
   }
 }

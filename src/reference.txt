@@ -1,0 +1,48 @@
+feat: feature added
+fix: bug fixes
+balance: self-explained
+refactor: code changes
+assets: assets changes
+docs: added documentations
+
+* Fragmentation system
+
+yippe, pipebomb is the first ever instance of this system!
+
+File map
+
+common/FragmentProfile | profile record
+registry/FragmentParser | JSON contain profile, validation, caps
+registry/FragmentRegistry | source id contain profile (volatile map)
+registry/ExtraDataRegistry | reload listener, has a separate try per section
+fragment/FragmentRules | port over jeg bullet rules, clip, glass roll
+fragment/FragmentationHelper | burst()
+fragment/FragmentConfig | .toml config
+network/S2CFragmentBurst, client/FragmentClient | streak & impact particle
+entity/ThrowablePipebombEntity, item/PipebombItem | THE pipebobm
+
+Profile JSON
+{
+  "fragmentation": {
+    "sources": ["<mod_id>:item_id"],
+    "count": int,
+    "aim_bias": float,
+    "bounce": int,
+    "bounce_lose": 0-1 float,
+    "max_aimed_per_target": int,
+    "damage": float,
+    "falloff": float,
+    "range": float,
+    "hit_radius": 0-1 float,
+    "visual": { "color": "#hexclr" }
+  }
+}
+
+* Required
+tba
+
+* Optional
+tba
+
+* Config (and-fragmentation.toml)
+tba

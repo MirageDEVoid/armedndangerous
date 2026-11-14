@@ -1,0 +1,12 @@
+{
+  "type": "jeg:recycling",
+  "ingredient": {
+    "item": "and:rapid_smg"
+  },
+  "result": {
+    "item": "jeg:gunnite_ingot",
+    "count": 4
+  },
+  "experience": 0,
+  "recyclingtime": 200
+}
