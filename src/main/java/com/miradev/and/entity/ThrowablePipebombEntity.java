@@ -7,6 +7,7 @@ import com.miradev.and.registry.FragmentRegistry;
 import com.miradev.and.registry.ResidueTriggerRegistry;
 import com.miradev.and.init.ModItems;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,6 +20,7 @@ import ttv.migami.jeg.entity.throwable.ThrowableGrenadeEntity;
 public class ThrowablePipebombEntity extends ThrowableGrenadeEntity {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static boolean warnedMissingProfile = false;
+    private static boolean spawnLightSupported = true;
     
     public ThrowablePipebombEntity(EntityType<? extends ThrowablePipebombEntity> type, Level level) {
         super(type, level);
@@ -35,7 +37,7 @@ public class ThrowablePipebombEntity extends ThrowableGrenadeEntity {
     public void onDeath() {
         if (!(this.level() instanceof ServerLevel server)) return;
 
-        this.spawnLight(this.getOnPos());
+        trySpawnLight(this.blockPosition());
 
         // 1. blast, helper reset iframe before ts
         float radius = FragmentConfig.PIPEBOMB_BLAST_RADIUS.get().floatValue();
@@ -56,5 +58,15 @@ public class ThrowablePipebombEntity extends ThrowableGrenadeEntity {
 
         FragmentationHelper.Result result = FragmentationHelper.burst(
                 server, FragmentationHelper.originFor(this), null, this.getOwner(), this, profile);
+    }
+
+    private void trySpawnLight(BlockPos pos) {
+        if (!spawnLightSupported) return;
+        try {
+            this.spawnLight(pos);
+        } catch (NoSuchMethodError e) {
+            spawnLightSupported = false;
+            LOGGER.warn("JEG is older than 0.14, skipping explosion light");
+        }
     }
 }

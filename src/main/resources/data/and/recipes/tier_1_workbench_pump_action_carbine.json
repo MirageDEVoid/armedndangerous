@@ -3,7 +3,7 @@
   "materials": [
     {
       "item": "jeg:scrap",
-      "count": 24
+      "count": 32
     },
     {
       "tag": "minecraft:planks",
@@ -16,10 +16,6 @@
     {
       "tag": "forge:ingots/iron",
       "count": 8
-    },
-    {
-      "item": "jeg:repair_kit",
-      "count": 2
     },
     {
       "item": "jeg:firearm_blueprint",
