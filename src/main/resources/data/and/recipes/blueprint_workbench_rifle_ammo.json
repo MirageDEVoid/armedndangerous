@@ -1,0 +1,14 @@
+{
+  "type": "jeg:blueprint_workbench",
+  "materials": [
+    {
+      "item": "and:supply_stamp",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "jeg:rifle_ammo",
+    "count": 15
+  },
+  "time": 30
+}

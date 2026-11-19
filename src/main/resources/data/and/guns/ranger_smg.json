@@ -48,6 +48,6 @@
     "fire": "jeg:item.dummy_tommy.fire",
     "reloadEnd": "jeg:item.assault_rifle.ejector_pull",
     "reloadLoad": "jeg:item.assault_rifle.reload_magazine_out",
-    "reloadStart": "jeg:item.assault_rifle.reload_magazine_in",
+    "reloadStart": "jeg:item.assault_rifle.reload_magazine_in"
   }
 }

@@ -1,0 +1,14 @@
+{
+  "type": "jeg:blueprint_workbench",
+  "materials": [
+    {
+      "item": "and:supply_stamp",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "jeg:shotgun_shell",
+    "count": 6
+  },
+  "time": 30
+}

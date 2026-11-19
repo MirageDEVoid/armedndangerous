@@ -3,7 +3,7 @@
   "materials": [
     {
       "item": "jeg:scrap",
-      "count": 24
+      "count": 40
     },
     {
       "item": "jeg:gunmetal_ingot",
@@ -19,10 +19,6 @@
     },
     {
       "item": "jeg:firearm_blueprint",
-      "count": 2
-    },
-    {
-      "item": "jeg:repair_kit",
       "count": 2
     }
   ],

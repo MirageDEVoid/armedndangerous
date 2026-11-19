@@ -22,6 +22,7 @@ public class ArmedNDangerous {
 
     public ArmedNDangerous() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        MinecraftForge.EVENT_BUS.register(this);
 
         ModItems.REGISTER.register(bus);
         ModBlocks.REGISTER.register(bus);

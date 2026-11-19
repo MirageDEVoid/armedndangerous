@@ -1,0 +1,14 @@
+{
+  "type": "jeg:blueprint_workbench",
+  "materials": [
+    {
+      "item": "and:supply_stamp",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "jeg:spectre_round",
+    "count": 5
+  },
+  "time": 30
+}
